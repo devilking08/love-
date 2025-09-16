@@ -1,154 +1,292 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Beautiful Form</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Do you love me?</title>
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 40px;
-      margin: 0;
+    :root{
+      --bg:#ffe9f0;
+      --card:#ffdfe6;
+      --accent:#ff6f91;
+      --muted:#f7cfe0;
+      --text:#2b2b2b;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial}
+    body{
+      display:flex;align-items:center;justify-content:center;
+      background: linear-gradient(180deg,#fff7fb 0%, #ffe9f0 100%);
+      color:var(--text);
+      padding:32px;
     }
 
-    form {
+    .card{
+      width: min(760px, 96vw);
+      background:var(--card);
+      border-radius:20px;
+      padding:36px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .avatar{
+      width:140px;height:140px;margin:0 auto 10px;
+      border-radius:14px; object-fit:cover;
+      background:linear-gradient(180deg,#fff,#ffe6f0);
+      display:inline-block;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    }
+
+    h1{
+      margin: 12px 0 20px;font-size:36px;letter-spacing:0.2px;
+      color:#3b3b3b;
+    }
+
+    .buttons{
+      height:120px;
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:16px;
+    }
+
+    button{
+      border:0;
+      padding:12px 28px;
+      font-size:18px;
+      border-radius:999px;
+      cursor:pointer;
+      box-shadow: 0 8px 22px rgba(255,111,145,0.16);
+      transition: transform .18s ease, box-shadow .18s ease;
+      user-select:none;
+    }
+    #yesBtn{
+      background: linear-gradient(90deg,#ff7fa0,#ff5b82);
+      color:white;
+    }
+    #yesBtn:active{ transform: translateY(2px) scale(.99) }
+
+    #noBtn{
+      position:absolute;
+      left: calc(50% + 120px);
+      top: 20px;
       background: #fff;
-      padding: 30px 40px;
-      border-radius: 15px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-      width: 100%;
-      max-width: 500px;
+      color:#333;
+      padding:10px 22px;
+      border-radius:18px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      transition: left .12s linear, top .12s linear;
     }
 
-    h1 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 25px;
-      font-size: 1.8rem;
+    #heartLoader{ margin-top:10px; font-weight:600; display:none; }
+    #resultContainer{ display:none; margin-top:18px; }
+
+    /* Floating hearts */
+    .heart{
+      position:absolute;
+      width:36px;
+      height:36px;
+      pointer-events:none;
+      transform: translate(-50%,-50%) scale(0);
+      opacity:0;
+      will-change: transform, opacity;
+      filter: drop-shadow(0 6px 18px rgba(255,90,120,0.25));
     }
 
-    div {
-      margin-bottom: 18px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: bold;
-      color: #444;
-    }
-
-    input,
-    select,
-    textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 1rem;
-      outline: none;
-      transition: 0.3s;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-      border-color: #2575fc;
-      box-shadow: 0 0 8px rgba(37, 117, 252, 0.4);
-    }
-
-    /* Radio & Checkbox */
-    input[type="radio"],
-    input[type="checkbox"] {
-      width: auto;
-      margin-right: 8px;
-    }
-
-    p {
-      margin-bottom: 8px;
-      font-weight: bold;
-      color: #444;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(135deg, #2575fc, #6a11cb);
-      border: none;
-      border-radius: 8px;
-      color: #fff;
-      font-size: 1.1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      opacity: 0.9;
-      transform: scale(1.02);
+    /* Responsive */
+    @media (max-width:520px){
+      h1{font-size:24px}
+      .avatar{width:110px;height:110px}
+      .buttons{height:140px}
     }
   </style>
 </head>
 <body>
-  <form action="/SUBMIT.PHP">
-    <h1>FORMS IN HTML</h1>
-    
-    <div>
-      <label for="name">NAME</label>
-      <input id="name" placeholder="Enter your name" type="text" required>
+  <div class="card" id="questionContainer">
+    <!-- replace the image src with any working PNG/GIF you prefer -->
+    <img class="avatar" src="https://pin.it/5sTEk4zJx" alt="cute" />
+    <h1>Do you love me?</h1>
+
+    <div class="buttons" id="buttonsWrap">
+      <button id="yesBtn">Yes</button>
+      <button id="noBtn">No</button>
     </div>
 
-    <div>
-      <label for="number">NUMBER</label>
-      <input id="number" type="tel" placeholder="Enter your number" required> 
-    </div>
+    <div id="heartLoader">❤️ Loading love...</div>
 
-    <div>
-      <label for="email">EMAIL</label>
-      <input id="email" type="email" placeholder="Enter your email" required>
+    <div id="resultContainer">
+      <h2>Yay! I love you too ❤️🥰</h2>
+      <img src="https://tenor.com/view/sport-running-running-away-gif-12080866026787605323" alt="love" style="max-width:240px;border-radius:12px" />
     </div>
+  </div>
 
-    <div>
-      <label for="dob">DATE OF BIRTH</label>
-      <input id="dob" type="date" required>
-    </div>
+  <script>
+    // Elements
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const questionContainer = document.getElementById('questionContainer');
+    const buttonsWrap = document.getElementById('buttonsWrap');
+    const heartLoader = document.getElementById('heartLoader');
+    const resultContainer = document.getElementById('resultContainer');
 
-    <div>
-      <p>Marriage Status</p>
-      <label for="unmarried"><input type="radio" id="unmarried" name="marriage" value="unmarried">Unmarried</label>
-      <label for="married"><input type="radio" id="married" name="marriage" value="married">Married</label>
-    </div>
+    // Constrain the No button within the card content area
+    function moveNoBtnRandomly() {
+      // container bounds (relative to the card)
+      const pad = 12;
+      const rect = questionContainer.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
 
-    <div>
-      <label for="gender">GENDER</label>
-      <select id="gender" required>
-        <option value="" disabled selected>Select gender</option>
-        <option value="male">MALE</option>
-        <option value="female">FEMALE</option>
-        <option value="other">OTHER</option>
-      </select>
-    </div>
+      // compute available area for the top-left of the button
+      const maxX = Math.max(0, rect.width - btnRect.width - pad*2);
+      const maxY = Math.max(0, rect.height - btnRect.height - 80); // avoid overlapping header area
 
-    <div>
-      <p>Agreement</p>
-      <label for="agree">
-        <input type="checkbox" id="agree" required>
-        I agree to the terms and conditions
-      </label>
-    </div>
+      // pick random position (biased away from center sometimes)
+      const newX = Math.floor(Math.random() * maxX) + pad;
+      const newY = Math.floor(Math.random() * maxY) + 40;
 
-    <div>
-      <label for="comments">Comments</label>
-      <textarea name="comments" id="comments" placeholder="Enter your comments" rows="4"></textarea>
-    </div>
+      // set relative to the card using CSS left/top on the button
+      noBtn.style.left = newX + 'px';
+      noBtn.style.top = newY + 'px';
+    }
 
-    <div>
-      <button type="submit">SUBMIT</button>
-    </div>
-  </form>
+    // When mouseover, move the No button — also ensure it doesn't jump off-screen
+    noBtn.addEventListener('mouseenter', (e) => {
+      // sometimes do small bounce
+      moveNoBtnRandomly();
+    });
+
+    // Additional trick: if user tries to click the No button quickly, move it away on mousedown
+    noBtn.addEventListener('mousedown', (e) => {
+      moveNoBtnRandomly();
+      e.preventDefault();
+    });
+
+    // On Yes click: show loader, then result + floating hearts
+    yesBtn.addEventListener('click', async () => {
+      heartLoader.style.display = 'block';
+      resultContainer.style.display = 'none';
+
+      // small delay to mimic original
+      await sleep(1500);
+
+      // create floating hearts
+      launchHearts(14);
+
+      // finish loader and reveal result
+      await sleep(1600);
+      heartLoader.style.display = 'none';
+      resultContainer.style.display = 'block';
+    });
+
+    function sleep(ms){ return new Promise(res=>setTimeout(res, ms)); }
+
+    // Create floating heart elements and animate them using JS + CSS transforms
+    function launchHearts(count=10){
+      const rect = questionContainer.getBoundingClientRect();
+      const centerX = rect.width/2;
+      const startY = rect.height*0.55;
+
+      for(let i=0;i<count;i++){
+        const el = document.createElement('img');
+        el.src = pickHeart();
+        el.className = 'heart';
+        // random start position near the center
+        const startLeft = centerX + randBetween(-40, 40);
+        const delay = i * 80 + randBetween(0, 200);
+        el.style.left = startLeft + 'px';
+        el.style.top = startY + 'px';
+        questionContainer.appendChild(el);
+
+        // animate using requestAnimationFrame timeline
+        animateHeart(el, delay);
+        // cleanup after animation
+        setTimeout(()=> {
+          if(el && el.parentElement) el.parentElement.removeChild(el);
+        }, 4000 + delay);
+      }
+    }
+
+    // small assortment of heart images (transparent)
+    function pickHeart(){
+      const arr = [
+        'https://i.ibb.co/0J3yY6p/heart-1.png',
+        'https://i.ibb.co/9yq1s1X/heart-2.png',
+        'https://i.ibb.co/9cGk1zH/heart-3.png'
+      ];
+      return arr[Math.floor(Math.random()*arr.length)];
+    }
+
+    function animateHeart(el, delay=0){
+      const duration = 2600 + randBetween(-400,400);
+      const start = performance.now() + delay;
+      const startX = parseFloat(el.style.left);
+      const startY = parseFloat(el.style.top);
+      const driftX = randBetween(-120, 120);
+      const endY = startY - (200 + Math.random()*180);
+
+      function frame(now){
+        const t = Math.max(0, Math.min(1, (now - start) / duration));
+        // ease out
+        const ease = 1 - Math.pow(1 - t, 3);
+        const curX = startX + driftX * ease;
+        const curY = startY + (endY - startY) * ease;
+        const scale = 0.6 + 0.7 * ease;
+        el.style.transform = `translate(-50%,-50%) translate(${curX - startX}px, ${curY - startY}px) scale(${scale})`;
+        el.style.opacity = String(Math.max(0, 1 - t*1.05));
+        if(t < 1) requestAnimationFrame(frame); else {/*done*/}
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function randBetween(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+
+    // initial placement of No button near right
+    window.addEventListener('load', () => {
+      // put noBtn relatively inside card area
+      // place it centered horizontally offset, and vertically under the title
+      noBtn.style.position = 'absolute';
+      noBtn.style.left = (questionContainer.clientWidth * 0.65) + 'px';
+      noBtn.style.top = '30px';
+    });
+
+    // make the No button dodge the mouse cursor if it gets close (extra polish)
+    questionContainer.addEventListener('mousemove', (e) => {
+      const qRect = questionContainer.getBoundingClientRect();
+      const mx = e.clientX - qRect.left;
+      const my = e.clientY - qRect.top;
+      const btnRect = noBtn.getBoundingClientRect();
+      const bx = btnRect.left - qRect.left + btnRect.width/2;
+      const by = btnRect.top - qRect.top + btnRect.height/2;
+      const dist = Math.hypot(mx - bx, my - by);
+
+      // if cursor gets too close, move button away
+      if(dist < 110){
+        // move opposite direction a bit
+        const angle = Math.atan2(by - my, bx - mx);
+        const moveX = Math.cos(angle) * 160 + randBetween(-40,40);
+        const moveY = Math.sin(angle) * 80 + randBetween(-20,20);
+        const newLeft = Math.min(Math.max(8, bx + moveX), questionContainer.clientWidth - noBtn.offsetWidth - 8);
+        const newTop  = Math.min(Math.max(8, by + moveY), questionContainer.clientHeight - noBtn.offsetHeight - 8);
+        noBtn.style.left = newLeft + 'px';
+        noBtn.style.top = newTop + 'px';
+      }
+    });
+
+    // Optional: keyboard accessibility - pressing Y triggers Yes
+    window.addEventListener('keydown', (e) => {
+      if(e.key.toLowerCase() === 'y') yesBtn.click();
+      if(e.key.toLowerCase() === 'n') {
+        // animate a small jolt if user tries N
+        noBtn.animate([{transform:'scale(1)'},{transform:'scale(1.08)'},{transform:'scale(1)'}], {duration:220, easing:'ease-out'});
+        moveNoBtnRandomly();
+      }
+    });
+
+  </script>
 </body>
 </html>
