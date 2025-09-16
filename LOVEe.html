@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beautiful Form</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      margin: 0;
+    }
+
+    form {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 25px;
+      font-size: 1.8rem;
+    }
+
+    div {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #2575fc;
+      box-shadow: 0 0 8px rgba(37, 117, 252, 0.4);
+    }
+
+    /* Radio & Checkbox */
+    input[type="radio"],
+    input[type="checkbox"] {
+      width: auto;
+      margin-right: 8px;
+    }
+
+    p {
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+<body>
+  <form action="/SUBMIT.PHP">
+    <h1>FORMS IN HTML</h1>
+    
+    <div>
+      <label for="name">NAME</label>
+      <input id="name" placeholder="Enter your name" type="text" required>
+    </div>
+
+    <div>
+      <label for="number">NUMBER</label>
+      <input id="number" type="tel" placeholder="Enter your number" required> 
+    </div>
+
+    <div>
+      <label for="email">EMAIL</label>
+      <input id="email" type="email" placeholder="Enter your email" required>
+    </div>
+
+    <div>
+      <label for="dob">DATE OF BIRTH</label>
+      <input id="dob" type="date" required>
+    </div>
+
+    <div>
+      <p>Marriage Status</p>
+      <label for="unmarried"><input type="radio" id="unmarried" name="marriage" value="unmarried">Unmarried</label>
+      <label for="married"><input type="radio" id="married" name="marriage" value="married">Married</label>
+    </div>
+
+    <div>
+      <label for="gender">GENDER</label>
+      <select id="gender" required>
+        <option value="" disabled selected>Select gender</option>
+        <option value="male">MALE</option>
+        <option value="female">FEMALE</option>
+        <option value="other">OTHER</option>
+      </select>
+    </div>
+
+    <div>
+      <p>Agreement</p>
+      <label for="agree">
+        <input type="checkbox" id="agree" required>
+        I agree to the terms and conditions
+      </label>
+    </div>
+
+    <div>
+      <label for="comments">Comments</label>
+      <textarea name="comments" id="comments" placeholder="Enter your comments" rows="4"></textarea>
+    </div>
+
+    <div>
+      <button type="submit">SUBMIT</button>
+    </div>
+  </form>
+</body>
+</html>
